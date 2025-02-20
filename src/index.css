@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root {
+  --mainColor: #5f35f5;
+  --mainBgCOlor: #fcfcfc;
+  --authFontColor: #11175d;
+  --mainFontColor: #000000;
+}
+
+@theme {
+  --color-mainColor: var(--mainColor);
+  --color-mainColor: var(--mainColor);
+  --color-authFontColor: var(--authFontColor);
+  --color-mainFontColor: var(--mainFontColor);
+}
