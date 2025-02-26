@@ -1,14 +1,23 @@
 import React, { useState } from "react";
 import lable from "../../assets/Library/Library";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import Registratio from "../Image/Registration.jpg"
+import Registratio from "../Image/Registration.jpg";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification,
+} from "firebase/auth";
 
 function Index() {
+  const auth = getAuth();
   const data = lable.signUpdata();
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // Track password visibility
+  const [loading, setloading] = useState(false);
 
   // Error States
   const [emailError, setEmailError] = useState("");
@@ -34,16 +43,63 @@ function Index() {
     } else if (!password) {
       setPasswordError("Please Enter your Password!");
     } else {
-      console.log("Fine");
+      setloading(true);
+      setEmailError("");
+      setFullNameError("");
+      setPasswordError("");
+      console.log(email, fullName, password);
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userInfo) => {
+          updateProfile(auth.currentUser, {
+            displayName: fullName || "Opps!",
+            photoURL: "https://example.com/jane-q-user/profile.jpg",
+          });
+        })
+        .then(() => {
+          toast.success(
+            `🦄 ${fullName} Registration Successfull`,
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            }
+          );
+          return sendEmailVerification(auth.currentUser);
+        })
+        .then((mailInfo) => {
+          console.log("Email sent", mailInfo);
+          })
+        .catch((err) => {
+          console.log(`Opps! Something went wrong ${err.code}`);
+          
+        })
+        .finally(() => {
+          setloading(false);
+          setEmail("");
+          setPassword("");
+          setFullName("");
+        });
     }
   };
+
+  console.log(auth.currentUser);
 
   return (
     <div className="flex items-center justify-between">
       <div className="w-[50%] h-screen flex items-center justify-center">
         <div>
-          <h1>Get started with easily register</h1>
-          <p>Free register and you can enjoy it</p>
+          <h1 className="text-[36px] font-bold">
+            Get started with easily register
+          </h1>
+          <p className="text-[20px] font-bold">
+            Free register and you can enjoy it
+          </p>
           <form
             action="#"
             className="mt-[24px]"
@@ -61,9 +117,13 @@ function Index() {
                 <div className="relative w-full">
                   <input
                     type={
-                      name === "Password" && showPassword ? "text" : 
-                      name === "Password" ? "password" : 
-                      name === "Email" ? "email" : "text"
+                      name === "Password" && showPassword
+                        ? "text"
+                        : name === "Password"
+                        ? "password"
+                        : name === "Email"
+                        ? "email"
+                        : "text"
                     }
                     placeholder={name}
                     name={name}
@@ -92,25 +152,32 @@ function Index() {
               </div>
             ))}
 
-            <button
-              onClick={handleSignUp}
-              className="px-[32px] py-[8px] bg-mainColor text-white rounded-[8px] cursor-pointer"
-            >
-              Sign Up
-            </button>
+            {loading ? (
+              <button className="px-[32px] py-[8px] bg-mainColor text-white rounded-[8px] cursor-pointer">
+                {" "}
+                Loading....
+              </button>
+            ) : (
+              <button
+                onClick={handleSignUp}
+                className="px-[32px] py-[8px] bg-mainColor text-white rounded-[8px] cursor-pointer"
+              >
+                Sign Up
+              </button>
+            )}
           </form>
 
           <p className="mt-[24px]">
-            Already have an account? <span>Sign In</span>
+            Already have an account?{" "}
+            <span className="decoration-red-700">Sign In</span>
           </p>
         </div>
       </div>
       <div className="w-[50%]">
-          <img src={Registratio} alt={Registratio} />
-        </div>
+        <img src={Registratio} alt={Registratio} />
+      </div>
     </div>
   );
 }
 
 export default Index;
-

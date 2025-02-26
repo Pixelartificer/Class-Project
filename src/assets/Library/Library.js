@@ -15,7 +15,7 @@ lable.signUpdata = () => {
       },
   
       {
-        id: 1,
+        id: 3,
         name: "Password",
         requird: true,
       },
