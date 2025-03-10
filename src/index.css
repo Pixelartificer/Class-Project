@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --mainColor: #5f35f5;
+  --mainColor: #843881;
   --mainBgCOlor: #fcfcfc;
   --authFontColor: #11175d;
   --mainFontColor: #000000;
@@ -12,4 +12,29 @@
   --color-mainColor: var(--mainColor);
   --color-authFontColor: var(--authFontColor);
   --color-mainFontColor: var(--mainFontColor);
+}
+
+.avtive{
+  background-color: #fff;
+  width: 85%;
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  position: relative;
+  color: var(--mainColor);
+  margin-left: 10px;
+}
+
+.avtive::after{
+  position: absolute;
+  content: "";
+  right: -5px;
+  top: 0;
+  background-color: var(--mainColor);
+  height: 100%;
+  width: 8px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
