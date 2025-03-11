@@ -1,14 +1,13 @@
-import React from 'react'
-import SideBar from '../../../Components/HomeComponents/SideBar'
+import React from "react";
+import SideBar from "../../../Components/HomeComponents/SideBar";
+import { Outlet } from "react-router";
 
 const Home = () => {
   return (
     <>
-    <div className='p-5'>
-    <SideBar/>
-    </div>
+     <h1>this is home</h1>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

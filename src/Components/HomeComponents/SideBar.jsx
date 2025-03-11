@@ -10,21 +10,25 @@ const SideBar = () => {
   const navigationIcons = [
     {
       id: 1,
+      path: "/",
       icon: <IoHomeOutline />,
     },
 
     {
       id: 2,
+      path: "/messages",
       icon: <TiMessages />,
     },
 
     {
       id: 3,
+      path: "/notifecation",
       icon: <FaRegBell />,
     },
 
     {
       id: 4,
+      path: "/setting",
       icon: <FaGears />,
     },
 
@@ -53,11 +57,11 @@ const SideBar = () => {
 
       {/* Navigation Icon */}
 
-      <div className="flex flex-col items-center justify-center mt-[80px] gap-y-[64px]">
+      <div className="flex flex-col items-center justify-center mt-[80px] gap-y-[64px] ">
         {navigationIcons?.map((item, index)=>(
-            navigationIcons.length -1 == index ? (<Link className="text-[36px] avtive text-white mt-[200px]" key={item.id}>
+            navigationIcons.length -1 == index ? (<Link className="text-[36px] avtive text-white mt-[120px]" key={item.id}>
                 {item.icon}
-              </Link>) : (<Link className="text-[36px] text-white" key={item.id}>
+              </Link>) : (<Link className="text-[36px] text-white " key={item.id}>
             {item.icon}
           </Link>)
             
