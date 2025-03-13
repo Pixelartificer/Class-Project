@@ -4,9 +4,11 @@ import { FaGears } from "react-icons/fa6";
 import { IoCloudUploadOutline, IoHomeOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 
 const SideBar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const navigationIcons = [
     {
       id: 1,
@@ -16,7 +18,7 @@ const SideBar = () => {
 
     {
       id: 2,
-      path: "/messages",
+      path: "/message",
       icon: <TiMessages />,
     },
 
@@ -37,6 +39,15 @@ const SideBar = () => {
       icon: <MdLogout />,
     },
   ];
+
+  
+
+  // handleNavigationItem
+
+  const handleNavigationItem = (path = "/")=>{
+    navigate(path)
+  }
+
 
   return (
     <div className="w-[140px] bg-mainColor h-[95vh] rounded-2xl">
@@ -59,11 +70,11 @@ const SideBar = () => {
 
       <div className="flex flex-col items-center justify-center mt-[80px] gap-y-[64px] ">
         {navigationIcons?.map((item, index)=>(
-            navigationIcons.length -1 == index ? (<Link className="text-[36px] avtive text-white mt-[120px]" key={item.id}>
+            navigationIcons.length -1 == index ? (<div className="text-[36px] text-white mt-[120px] cursor-pointer"  key={item.id} >
                 {item.icon}
-              </Link>) : (<Link className="text-[36px] text-white " key={item.id}>
+              </div>) : (<div className={location.pathname == item.path ? "text-[36px] text-white active cursor-pointer" : "text-[36px]  text-white cursor-pointer"} key={item.id} onClick={()=>handleNavigationItem(item.path)}>
             {item.icon}
-          </Link>)
+          </div>)
             
         ))}
         

@@ -1,13 +1,12 @@
-import React from "react";
-import SideBar from "../../../Components/HomeComponents/SideBar";
-import { Outlet } from "react-router";
+import React from 'react'
+import GroupList from '../../../Components/HomeComponents/Grouplist'
 
 const Home = () => {
   return (
-    <>
-     <h1>this is home</h1>
-    </>
-  );
-};
+    <div>
+      <GroupList />
+    </div>
+  )
+}
 
-export default Home;
+export default Home
