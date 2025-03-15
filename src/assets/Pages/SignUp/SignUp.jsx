@@ -7,7 +7,7 @@ import { FaFacebook } from "react-icons/fa";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import lable from "../../Library/Library";
 import Registratio from "../../Image/Registration.jpg";
-import Logo from "../../Image/Login.jpg"; // Your logo
+
 
 function Signup() {
   const auth = getAuth();
@@ -108,11 +108,10 @@ function Signup() {
   };
 
   return (
-    <div className="bg-purple-100 min-h-screen flex items-center justify-center">
+    <div className="bg-purple-100 min-h-screen flex items-center justify-center w-[100vw] overflow-hidden">
       <div className="w-[90%] m-auto flex flex-col items-center">
         
-        {/* Logo */}
-        <img src={Logo} alt="Logo" className="h-20 mb-5" />
+       
 
         <div className="flex items-center justify-between w-full">
           
@@ -178,7 +177,7 @@ function Signup() {
           </div>
 
           {/* Registration Image */}
-          <div className="w-[50%]">
+          <div className="w-[50%] overflow-hidden h-screen">
             <img src={Registratio} alt="Register" />
           </div>
         </div>
