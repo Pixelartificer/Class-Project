@@ -1,47 +1,21 @@
 import React from "react";
+import SideBar from "../../Components/HomeComponents/SideBar";
+import { Outlet } from "react-router";
 import { IoEllipsisVerticalSharp, IoSearch } from "react-icons/io5";
 import Avatar from "../..//assets/HomeImage/avatar01.gif";
+import { FaPlus } from "react-icons/fa";
 
-const GroupList = () => {
+const UserList = () => {
   return (
     <>
       <div
         className="bg-white  w-[31%]
       border-1 border-gray-300 shadow-gray-700 rounded-2xl "
       >
-        {/* Search Bar */}
-        <div>
-          <form className="max-w-md mx-auto ">
-            <label
-              for="default-search"
-              class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-            ></label>
-            <div className="relative p-[12px] ">
-              <span class="absolute inset-y-0 start-4 flex items-center ps-3 pointer-events-none">
-                <IoSearch />
-              </span>
-              <span class="absolute inset-y-0 end-6 flex items-center ps-3 pointer-events-none">
-                <IoEllipsisVerticalSharp />
-              </span>
-              <input
-                type="search"
-                id="default-search"
-                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-[12px] bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search..."
-                required
-              />
-            </div>
-          </form>
-        </div>
-        {/* Search Bar */}
-
-        {/* Group List */}
-        <div className="flex justify-between items-center px-[22px] ">
+        {/* User List */}
+        <div className="flex justify-between items-center px-[22px] mt-5">
           <h1 className="text-2xl font-bold text-gray-700 relative">
-            Group List
-            <span className="absolute text-[12px] inset-y-0 start-30  w-8 h-8 p-[4px]  flex items-center text- justify-center bg-purple-600 text-white rounded-full">
-              {10}
-            </span>
+            User List
           </h1>
           <span>
             <IoEllipsisVerticalSharp />
@@ -81,7 +55,7 @@ const GroupList = () => {
                 type="button"
                 className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 cursor-pointer"
               >
-                Join
+                <FaPlus />
               </button>
 
               {/* Name and Other Text*/}
@@ -97,4 +71,4 @@ const GroupList = () => {
   );
 };
 
-export default GroupList;
+export default UserList;

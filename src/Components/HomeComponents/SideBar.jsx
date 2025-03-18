@@ -126,7 +126,7 @@ const SideBar = () => {
   ];
 
   return (
-    <div className="w-[140px] bg-mainColor h-[95vh] rounded-2xl">
+    <div className="w-[140px] bg-mainColor h-[100vh] rounded-2xl overflow-hidden">
       <div className="flex justify-center">
         <div className="w-[80px] h-[80px] mt-6 rounded-b-full relative cursor-pointer group border-[4px] border-white rounded-full">
           <picture>
