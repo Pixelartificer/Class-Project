@@ -40,14 +40,11 @@
 //     },
 //   ];
 
-  
-
 //   // handleNavigationItem
 
 //   const handleNavigationItem = (path = "/")=>{
 //     navigate(path)
 //   }
-
 
 //   return (
 //     <div className="w-[140px] bg-mainColor h-[95vh] rounded-2xl">
@@ -75,12 +72,9 @@
 //               </div>) : (<div className={location.pathname == item.path ? "text-[36px] text-white active cursor-pointer" : "text-[36px]  text-white cursor-pointer"} key={item.id} onClick={()=>handleNavigationItem(item.path)}>
 //             {item.icon}
 //           </div>)
-            
+
 //         ))}
-        
-      
-          
-        
+
 //       </div>
 //       {/* Navigation Icon */}
 //     </div>
@@ -88,7 +82,7 @@
 // };
 
 // export default SideBar;
-import React from "react";
+import React, { useEffect } from "react";
 import { FaRegBell } from "react-icons/fa";
 import { FaGears } from "react-icons/fa6";
 import { IoCloudUploadOutline, IoHomeOutline } from "react-icons/io5";
@@ -125,6 +119,57 @@ const SideBar = () => {
     },
   ];
 
+  /**
+   * todo: handleUpliadImage function
+   */
+
+  const handleUpliadImage = () => {
+    cloudinary.openUploadWidget(
+      {
+        cloudName: "deapu30tb",
+        uploadPreset: "Reacr_Chat_Projec t_02",
+        sources: [
+          "local",
+          "url",
+          "image_search",
+          "camera",
+          "google_drive",
+          "dropbox",
+          "facebook",
+          "instagram",
+          "picasa",
+          "flickr",
+          "google_photos",
+          "onedrive",
+          "shutterstock",
+          "unsplash",
+        ],
+        googleApiKey: 'AIzaSyD8NiKh-IRsoREkuiKeO5EAHYi8orgnTI4',
+        searchBySites: ["all", "cloudinary.com"],
+        searchByRights: true,
+      },
+      (error, result) => {
+        if (!error) {
+          throw new error('Faild to upload Profile Picture')
+      }
+    }
+    );
+  };
+
+  /**
+   * useEffect function can do
+   * manual dom update
+   * nework request
+   * connect with external server
+   */
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = `https://upload-widget.cloudinary.com/latest/global/all.js`;
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <div className="w-[140px] bg-mainColor h-[100vh] rounded-2xl overflow-hidden">
       <div className="flex justify-center">
@@ -136,7 +181,10 @@ const SideBar = () => {
               className="w-full h-full object-cover rounded-full"
             />
           </picture>
-          <span className="absolute hidden group-hover:block left-1/2 top-1/2 text-white text-3xl -translate-1/2">
+          <span
+            onClick={handleUpliadImage}
+            className="absolute hidden group-hover:block left-1/2 top-1/2 text-white text-3xl -translate-1/2"
+          >
             <IoCloudUploadOutline />
           </span>
         </div>
@@ -174,3 +222,4 @@ const SideBar = () => {
 };
 
 export default SideBar;
+
