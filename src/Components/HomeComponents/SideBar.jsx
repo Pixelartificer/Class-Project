@@ -82,16 +82,27 @@
 // };
 
 // export default SideBar;
+
+
+
+
+
+
+
 import React, { useEffect } from "react";
 import { FaRegBell } from "react-icons/fa";
 import { FaGears } from "react-icons/fa6";
 import { IoCloudUploadOutline, IoHomeOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
 
 const SideBar = () => {
   const location = useLocation();
+  const auth = getAuth();
+  const navigate = useNavigate();
+
   const navigationIcons = [
     {
       id: 1,
@@ -116,52 +127,45 @@ const SideBar = () => {
     {
       id: 5,
       icon: <MdLogout />,
+      isLogout: true,
     },
   ];
 
-  /**
-   * todo: handleUpliadImage function
-   */
+  const handleIconClick = (item) => {
+    if (item.isLogout) {
+      handleLogout();
+    } else {
+      navigate(item.path);
+    }
+  };
 
-  const handleUpliadImage = () => {
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        navigate("/signin");
+      })
+      .catch((err) => {
+        console.error("Error from signout:", err);
+      });
+  };
+
+  const handleUploadImage = () => {
     cloudinary.openUploadWidget(
       {
         cloudName: "deapu30tb",
-        uploadPreset: "Reacr_Chat_Projec t_02",
-        sources: [
-          "local",
-          "url",
-          "image_search",
-          "camera",
-          "google_drive",
-          "dropbox",
-          "facebook",
-          "instagram",
-          "picasa",
-          "flickr",
-          "google_photos",
-          "onedrive",
-          "shutterstock",
-          "unsplash",
-        ],
-        googleApiKey: 'AIzaSyD8NiKh-IRsoREkuiKeO5EAHYi8orgnTI4',
+        uploadPreset: "Reacr_Chat_Project_02",
+        sources: ["local", "url", "image_search", "camera"],
+        googleApiKey: "AIzaSyD8NiKh-IRsoREkuiKeO5EAHYi8orgnTI4",
         searchBySites: ["all", "cloudinary.com"],
         searchByRights: true,
       },
       (error, result) => {
         if (!error) {
-          throw new error('Faild to upload Profile Picture')
+          throw new Error("Failed to upload profile picture");
+        }
       }
-    }
     );
   };
-
-  /**
-   * useEffect function can do
-   * manual dom update
-   * nework request
-   * connect with external server
-   */
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -182,7 +186,7 @@ const SideBar = () => {
             />
           </picture>
           <span
-            onClick={handleUpliadImage}
+            onClick={handleUploadImage}
             className="absolute hidden group-hover:block left-1/2 top-1/2 text-white text-3xl -translate-1/2"
           >
             <IoCloudUploadOutline />
@@ -190,36 +194,23 @@ const SideBar = () => {
         </div>
       </div>
 
-      {/* Navigation Icon */}
-
-      <div className="flex flex-col items-center justify-center mt-[80px] gap-y-[64px] ">
-        {navigationIcons?.map((item, index) =>
-          navigationIcons.length - 1 === index ? (
-            <div
-              className="text-[36px] text-white mt-[120px] cursor-pointer"
-              key={item.id}
-            >
-              {item.icon}
-            </div>
-          ) : (
-            <Link
-              to={item.path}
-              className={
-                location.pathname === item.path
-                  ? "text-[36px] text-white active cursor-pointer"
-                  : "text-[36px] text-white cursor-pointer"
-              }
-              key={item.id}
-            >
-              {item.icon}
-            </Link>
-          )
-        )}
+      <div className="flex flex-col items-center justify-center mt-[80px] gap-y-[64px]">
+        {navigationIcons.map((item, index) => (
+          <div
+            key={item.id}
+            className={`text-[36px] text-white cursor-pointer ${
+              item.isLogout ? "mt-[120px]" : ""
+            } ${
+              location.pathname === item.path && !item.isLogout ? "active" : ""
+            }`}
+            onClick={() => handleIconClick(item)}
+          >
+            {item.icon}
+          </div>
+        ))}
       </div>
-      {/* Navigation Icon */}
     </div>
   );
 };
 
 export default SideBar;
-
