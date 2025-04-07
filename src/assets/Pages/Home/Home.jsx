@@ -10,7 +10,6 @@ const Home = () => {
   return (
     <div className="flex gap-5 flex-wrap justify-center h-fit overflow-hidden">
       <GroupList />
-
       <Friends />
       <UserList />
       <FriendRequest />
