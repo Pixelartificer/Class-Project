@@ -1,99 +1,123 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoEllipsisVerticalSharp, IoSearch } from "react-icons/io5";
-import Avatar from "../..//assets/HomeImage/avatar01.gif";
+import { getDatabase, ref, onValue } from "firebase/database";
 
 const GroupList = () => {
+  // State to hold the list of groups fetched from Firebase
+  const [groups, setGroups] = useState([]);
+  
+  // Firebase database reference
+  const db = getDatabase();
+
+  // useEffect hook to fetch group data from Firebase on component mount
+  useEffect(() => {
+    const groupRef = ref(db, "groups/"); // Reference to the 'groups' node in Firebase
+    onValue(groupRef, (snapshot) => {
+      let groupArray = [];
+      snapshot.forEach((item) => {
+        // Push each group's data into the array with its key
+        groupArray.push({ ...item.val(), groupKey: item.key });
+      });
+      // Set the fetched groups into state
+      setGroups(groupArray);
+    });
+  }, []); // Empty dependency array means this effect runs only once when the component mounts
+
   return (
-    <>
-      <div
-        className="bg-white  w-[31%]
-      border-1 border-gray-300 shadow-gray-700 rounded-2xl "
-      >
-        {/* Search Bar */}
-        <div>
-          <form className="max-w-md mx-auto ">
-            <label
-              for="default-search"
-              class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-            ></label>
-            <div className="relative p-[12px] ">
-              <span class="absolute inset-y-0 start-4 flex items-center ps-3 pointer-events-none">
-                <IoSearch />
-              </span>
-              <span class="absolute inset-y-0 end-6 flex items-center ps-3 pointer-events-none">
-                <IoEllipsisVerticalSharp />
-              </span>
-              <input
-                type="search"
-                id="default-search"
-                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-[12px] bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search..."
-                required
-              />
-            </div>
-          </form>
-        </div>
-        {/* Search Bar */}
-
-        {/* Group List */}
-        <div className="flex justify-between items-center px-[22px] ">
-          <h1 className="text-2xl font-bold text-gray-700 relative">
-            Group List
-            <span className="absolute text-[12px] inset-y-0 start-30  w-8 h-8 p-[4px]  flex items-center text- justify-center bg-purple-600 text-white rounded-full">
-              {10}
+    <div className="bg-white w-[31%] border-1 border-gray-300 shadow-gray-700 rounded-2xl">
+      {/* Search Bar Section */}
+      <div>
+        <form className="max-w-md mx-auto">
+          {/* Hidden label for accessibility (for screen readers) */}
+          <label htmlFor="default-search" className="sr-only"></label>
+          <div className="relative p-[12px]">
+            {/* Search Icon on the left */}
+            <span className="absolute inset-y-0 start-4 flex items-center ps-3 pointer-events-none">
+              <IoSearch />
             </span>
-          </h1>
-          <span>
-            <IoEllipsisVerticalSharp />
-          </span>
-        </div>
-
-        {/* group Below Part */}
-        <div className="h-[40vh]  overflow-y-scroll py-5">
-          {[...new Array(10)].map((_, index) => (
-            <div
-              className={
-                10 == index + 1
-                  ? "flex items-center justify-between mx-[22px] pt-[20px] pb-[12px] cursor-pointer"
-                  : "flex items-center justify-between mx-[22px] pt-[20px] pb-[12px] border-b-2 border-gray-700 cursor-pointer"
-              }
-              key={index}
-            >
-              <div className="flex gap-5 items-center ">
-                <div className="w-[50px] h-[50px] rounded-full bg-cover bg-center">
-                  <picture>
-                    <img
-                      className="w-[50px] h-[50px] rounded-full bg-cover bg-center "
-                      src={Avatar}
-                      alt={Avatar}
-                    />
-                  </picture>
-                </div>
-
-                {/* Name and Other Text*/}
-
-                <div>
-                  <h1 className="text-[14px] font-bold">Friendsd Reunion</h1>
-                  <p className="text-[12px]">Hi Guys, Wassup!</p>
-                </div>
-              </div>
-              <button
-                type="button"
-                className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 cursor-pointer"
-              >
-                Join
-              </button>
-
-              {/* Name and Other Text*/}
-            </div>
-          ))}
-        </div>
-
-        {/* group Below Part */}
-
-        {/* Group List */}
+            {/* Ellipsis Icon on the right (for more options) */}
+            <span className="absolute inset-y-0 end-6 flex items-center ps-3 pointer-events-none">
+              <IoEllipsisVerticalSharp />
+            </span>
+            {/* Search input field */}
+            <input
+              type="search"
+              id="default-search"
+              className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-[12px] bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Search..."
+              required
+            />
+          </div>
+        </form>
       </div>
-    </>
+
+      {/* Group List Header */}
+      <div className="flex justify-between items-center px-[22px]">
+        {/* Title for the Group List */}
+        <h1 className="text-2xl font-bold text-gray-700 relative">
+          Group List
+          {/* Display the total number of groups inside a small circular badge */}
+          <span className="absolute text-[12px] -top-2 -right-10 w-6 h-6 flex items-center justify-center bg-purple-600 text-white rounded-full">
+            {groups.length}
+          </span>
+        </h1>
+        {/* Ellipsis Icon for additional options */}
+        <span>
+          <IoEllipsisVerticalSharp />
+        </span>
+      </div>
+
+      {/* Group List Section */}
+      <div className="h-[40vh] overflow-y-scroll py-5">
+        {/* Map through the 'groups' array and display each group's data */}
+        {groups.map((group, index) => (
+          <div
+            // Conditional styling to add a bottom border except for the last item
+            className={
+              groups.length === index + 1
+                ? "flex items-center justify-between mx-[22px] pt-[20px] pb-[12px] cursor-pointer"
+                : "flex items-center justify-between mx-[22px] pt-[20px] pb-[12px] border-b-2 border-gray-700 cursor-pointer"
+            }
+            key={group.groupKey} // Unique key for each group
+          >
+            <div className="flex gap-5 items-center">
+              {/* Group's Avatar: Display a default placeholder image if groupPhoto is unavailable */}
+              <div className="w-[50px] h-[50px] rounded-full bg-cover bg-center">
+                <picture>
+                  <img
+                    className="w-[50px] h-[50px] rounded-full object-cover"
+                    src={
+                      group?.groupPhoto && group.groupPhoto.length > 0
+                        ? group.groupPhoto // Use group photo if available
+                        : "https://via.placeholder.com/50" // Default placeholder image
+                    }
+                    alt={group?.groupName || "Group"} // Use group name for alt text
+                  />
+                </picture>
+              </div>
+
+              <div>
+                {/* Group Name */}
+                <h1 className="text-[14px] font-bold">
+                  {group?.groupName || "Unnamed Group"}
+                </h1>
+                {/* Group Description */}
+                <p className="text-[12px] text-gray-600">
+                  {group?.description || "Welcome to the group!"}
+                </p>
+              </div>
+            </div>
+            {/* Button to join the group */}
+            <button
+              type="button"
+              className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 cursor-pointer"
+            >
+              Join
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
