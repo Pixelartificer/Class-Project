@@ -6,6 +6,9 @@ import Landing from "./assets/Pages/Landing/Landing";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import RootLayout from "./Components/RootLayout/RootLayout";
 import Home from "./assets/Pages/Home/Home";
+import Notifecation from "./assets/Pages/Notifecation/Notifecation";
+import Settings from "./assets/Pages/Settings/Settings";
+import ChatUI from "./assets/Pages/ChatUI/ChatUI";
 
 const App = () => {
   return (
@@ -16,9 +19,9 @@ const App = () => {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/" element={<RootLayout />}>
           <Route index element={<Home />} />
-          <Route path="/message" element={"This is Message page"} />
-          <Route path="/notifecation" element={"This is Notifecation page"} />
-          <Route path="/setting" element={"This is Setting page"} />
+          <Route path="/message" element={<ChatUI />} />
+          <Route path="/notifecation" element={<Notifecation />} />
+          <Route path="/setting" element={<Settings />} />
         </Route>
       </Routes>
     </BrowserRouter>
