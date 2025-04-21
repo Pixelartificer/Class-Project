@@ -93,12 +93,12 @@ const ChatUI = () => {
 
             {/* Sent messages */}
             <div className="text-right">
-              <div className="inline-block bg-indigo-600 text-white p-2 rounded-lg text-sm">Hello...</div>
+              <div className="inline-block bg-purple-700 text-white p-2 rounded-lg text-sm">Hello...</div>
               <p className="text-xs text-gray-400">Today, 2:12pm</p>
             </div>
 
             <div className="text-right">
-              <div className="inline-block bg-indigo-600 text-white p-2 rounded-lg text-sm">I am good and how about you?</div>
+              <div className="inline-block bg-purple-700 text-white p-2 rounded-lg text-sm">I am good and how about you?</div>
               <p className="text-xs text-gray-400">Today, 2:13pm</p>
             </div>
 
@@ -110,7 +110,7 @@ const ChatUI = () => {
 
             {/* Sent message */}
             <div className="text-right">
-              <div className="inline-block bg-indigo-600 text-white p-2 rounded-lg text-sm">Sure!</div>
+              <div className="inline-block bg-purple-700 text-white p-2 rounded-lg text-sm">Sure!</div>
               <p className="text-xs text-gray-400">Today, 2:14pm</p>
             </div>
           </div>
@@ -124,7 +124,7 @@ const ChatUI = () => {
               placeholder="Type a message"
               className="flex-1 px-4 py-2 border rounded-full focus:outline-none text-sm"
             />
-            <button className="bg-indigo-600 text-white p-2 rounded-full">
+            <button className="bg-purple-700 text-white p-2 rounded-full">
               <FaPaperPlane />
             </button>
           </div>
