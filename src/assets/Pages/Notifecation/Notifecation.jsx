@@ -1,28 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaBell } from "react-icons/fa";
+import { getDatabase, ref, onValue } from "firebase/database";
+import moment from "moment";
 
-// Sample notifications
-const notifications = [
-  "Your order has been shipped.",
-  "New comment on your post.",
-  "Password changed successfully.",
-  "Your subscription is expiring soon.",
-  "New message from John.",
-  "Your profile was viewed 10 times today.",
-  "You have a new follower: Sarah.",
-  "System update completed successfully.",
-  "Reminder: Meeting with Alex at 3 PM.",
-  "Promo alert: Get 20% off on your next order!",
-  "Friend request received from Michael.",
-  
-];
-
+// Firebase notification data
 const Notifecation = () => {
-    const [search, setSearch] = useState("");
+  const [notifications, setNotifications] = useState([]);
+  const [search, setSearch] = useState("");
 
-    const filtered = notifications.filter((note) =>
-      note.toLowerCase().includes(search.toLowerCase())
-    );
+  useEffect(() => {
+    const db = getDatabase();
+    const notificationsRef = ref(db, "notifications/");
+    
+    onValue(notificationsRef, (snapshot) => {
+      let notificationArray = [];
+      snapshot.forEach((item) => {
+        notificationArray.push({ ...item.val(), id: item.key });
+      });
+      setNotifications(notificationArray);
+    });
+  }, []);
+
+  // Filtered notifications based on search input
+  const filtered = notifications.filter((note) =>
+    note.message.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-xl mx-auto space-y-4">
@@ -46,10 +49,15 @@ const Notifecation = () => {
           {filtered.length > 0 ? (
             filtered.map((note, index) => (
               <div
-                key={index}
+                key={note.id}
                 className="bg-white p-4 rounded-lg shadow hover:shadow-md transition"
               >
-                {note}
+                <div className="flex justify-between">
+                  <span className="font-medium">{note.message}</span>
+                  <span className="text-xs text-gray-500">
+                    {moment(note.timestamp).fromNow()}
+                  </span>
+                </div>
               </div>
             ))
           ) : (
@@ -58,7 +66,7 @@ const Notifecation = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Notifecation
+export default Notifecation;

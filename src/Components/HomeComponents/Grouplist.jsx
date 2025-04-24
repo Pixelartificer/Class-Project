@@ -52,16 +52,14 @@ const GroupList = () => {
       </div>
 
       {/* Group List Header */}
-      <div className="flex justify-between items-center px-[22px]">
-        {/* Title for the Group List */}
-        <h1 className="text-2xl font-bold text-gray-700 relative">
+      <div className="flex justify-between items-center px-[22px] mt-3">
+        {/* Title and count badge in the same row */}
+        <h1 className="text-2xl font-bold text-gray-700 flex items-center gap-2">
           Group List
-          {/* Display the total number of groups inside a small circular badge */}
-          <span className="absolute text-[12px] -top-2 -right-10 w-6 h-6 flex items-center justify-center bg-purple-600 text-white rounded-full">
+          <span className="bg-purple-600 text-white text-[12px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
             {groups.length}
           </span>
         </h1>
-        {/* Ellipsis Icon for additional options */}
         <span>
           <IoEllipsisVerticalSharp />
         </span>
